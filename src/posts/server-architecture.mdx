@@ -1,0 +1,17 @@
+import ServerStatus from '../components/ui/ServerStatus.tsx';
+
+# How I handled Server Crashes
+
+When managing a Linux server, uptime is critical. But what happens when a process panics?
+
+In my recent project, I implemented a restart policy. You can try simulating a crash below to see how the UI handles the state change:
+
+<br />
+
+<ServerStatus /> 
+
+<br />
+
+## The Technical Details
+
+After the crash, the Go backend catches the signal...
