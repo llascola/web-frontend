@@ -1,31 +1,32 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import About from "@/components/About";
+import PortfolioSection from "@/components/PortfolioSection";
+import BlogSection from "@/components/BlogSection";
 
 // --- PAGE 1: The Public Portfolio ---
 const Portfolio = () => {
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-10">
-      <div className="max-w-2xl text-center space-y-6">
-        <h1 className="text-5xl font-extrabold tracking-tight lg:text-6xl">
-          Hi, I'm <span className="text-blue-600">Llascola</span>
-        </h1>
-        <p className="text-xl text-slate-600">
-          Full Stack Go Developer | Systems Architect
-        </p>
+    <div className="min-h-screen bg-white">
+      <Navbar />
+      <Hero />
+      <About />
+      <PortfolioSection />
+      <BlogSection />
 
-        <div className="flex gap-4 justify-center mt-8">
-          <Button variant="default">Download Resume</Button>
-          <Link to="/dashboard">
-            <Button variant="outline">View Backend GUI</Button>
-          </Link>
-        </div>
-      </div>
+      {/* Footer */}
+      <footer className="bg-slate-900 text-slate-300 py-8 text-center">
+        <p>&copy; {new Date().getFullYear()} Luciano Scola. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
 
 // --- PAGE 2: The Private Dashboard ---
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+
 const Dashboard = () => {
   return (
     <div className="min-h-screen bg-slate-100 p-8">
@@ -39,7 +40,6 @@ const Dashboard = () => {
 
       {/* Grid Layout for GUI Widgets */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
         {/* Widget 1: Server Status */}
         <Card>
           <CardHeader>
@@ -77,13 +77,14 @@ const Dashboard = () => {
             <p className="text-xs text-slate-500">Last 30 Days</p>
           </CardContent>
         </Card>
-
       </div>
     </div>
   );
 };
 
 // --- MAIN APP: Routing Logic ---
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 export default function App() {
   return (
     <BrowserRouter>
