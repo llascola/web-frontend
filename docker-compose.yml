@@ -1,0 +1,14 @@
+services:
+  # Service 1: Looks inside the 'frontend' folder
+  frontend:
+    build: .
+    container_name: frontend
+    networks:
+      - web-page
+    ports:
+      - "3000:80"
+    restart: always
+
+networks:
+  web-page:
+    external: true
