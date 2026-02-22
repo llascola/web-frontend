@@ -20,8 +20,8 @@ describe("Login Page Integration", () => {
         await user.click(submitButton);
 
         // Assert Zod natively traps the user and renders warnings in the DOM
-        expect(await screen.findByText(/username is required/i)).toBeInTheDocument();
-        expect(await screen.findByText(/password is required/i)).toBeInTheDocument();
+        expect(await screen.findByText(/email is required/i)).toBeInTheDocument();
+        expect(await screen.findByText(/password must be at least 8 characters/i)).toBeInTheDocument();
     });
 
     it("handles remote server error responses securely", async () => {
@@ -29,7 +29,7 @@ describe("Login Page Integration", () => {
         render(<Login />);
 
         await user.type(screen.getByLabelText(/username/i), "hacker@example.com");
-        await user.type(screen.getByLabelText(/password/i), "wrongpass");
+        await user.type(screen.getByLabelText(/password/i), "wrongpassword");
 
         await user.click(screen.getByRole("button", { name: /login/i }));
 
@@ -42,7 +42,7 @@ describe("Login Page Integration", () => {
         render(<Login />);
 
         await user.type(screen.getByLabelText(/username/i), "test@example.com");
-        await user.type(screen.getByLabelText(/password/i), "password");
+        await user.type(screen.getByLabelText(/password/i), "password123");
 
         await user.click(screen.getByRole("button", { name: /login/i }));
 

@@ -5,6 +5,24 @@
  * All API requests should go through this client instead of raw fetch().
  */
 
+/**
+ * Maps raw backend error messages to user-friendly strings.
+ */
+const toFriendlyError = (raw: string, status: number): string => {
+    const lower = raw.toLowerCase();
+
+    if (lower.includes("regex") || lower.includes("email"))
+        return "Please enter a valid email address.";
+    if (status === 401)
+        return "Invalid email or password.";
+    if (status === 409)
+        return "An account with this email already exists.";
+    if (status === 400)
+        return "Please check your input and try again.";
+
+    return raw || `Request failed (${status}).`;
+};
+
 type RequestOptions = {
     method?: string;
     headers?: Record<string, string>;
@@ -27,7 +45,7 @@ export const api = {
     async request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
         const { method = "GET", headers = {}, body, params } = options;
 
-        const url = new URL(`${import.meta.env.VITE_API_URL}${endpoint}`);
+        const url = new URL(endpoint, window.location.origin);
         if (params) {
             Object.entries(params).forEach(([key, value]) => {
                 url.searchParams.append(key, String(value));
@@ -55,7 +73,10 @@ export const api = {
             body,
         });
 
-        if (response.status === 401) {
+        // Only redirect on 401 for non-auth endpoints (expired session).
+        // Auth endpoints (login, register) should surface the error to the form.
+        const isAuthEndpoint = endpoint.startsWith("/auth/");
+        if (response.status === 401 && !isAuthEndpoint) {
             localStorage.removeItem("token");
             const redirectTo = window.location.pathname;
             window.location.href = `/login?redirectTo=${encodeURIComponent(redirectTo)}`;
@@ -64,7 +85,11 @@ export const api = {
 
         if (!response.ok) {
             const data = await response.json().catch(() => ({}));
-            throw new Error(data.message || data.error || `Request failed with status ${response.status}`);
+            const rawMessage = data.message || data.error || "";
+
+            // Map raw backend errors to user-friendly messages
+            const friendlyMessage = toFriendlyError(rawMessage, response.status);
+            throw new Error(friendlyMessage);
         }
 
         return response.json();
