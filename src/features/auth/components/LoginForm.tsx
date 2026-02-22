@@ -28,7 +28,7 @@ export const LoginForm = () => {
     const loginMutation = useLogin({
         mutationConfig: {
             onSuccess: (data) => {
-                login(data.token);
+                login(data.access_token);
                 navigate(from, { replace: true });
             },
         },

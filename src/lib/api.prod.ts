@@ -4,11 +4,12 @@ import { api } from "@/lib/api-client";
 
 export interface LoginCredentials {
     email: string;
-    password?: string;
+    password: string;
 }
 
 export interface AuthResponse {
-    token: string;
+    access_token: string;
+    refresh_token: string;
 }
 
 export const loginWithEmailAndPassword = (credentials: LoginCredentials): Promise<AuthResponse> => {

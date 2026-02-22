@@ -2,11 +2,12 @@
 
 export interface LoginCredentials {
     email: string;
-    password?: string;
+    password: string;
 }
 
 export interface AuthResponse {
-    token: string;
+    access_token: string;
+    refresh_token: string;
 }
 
 const DEV_EMAIL = "admin@dev.local";
@@ -30,7 +31,7 @@ export const loginWithEmailAndPassword = async (credentials: LoginCredentials): 
     await new Promise((resolve) => setTimeout(resolve, 300));
 
     if (credentials.email === DEV_EMAIL && credentials.password === DEV_PASSWORD) {
-        return { token: createDevToken() };
+        return { access_token: createDevToken(), refresh_token: "mock-refresh-token" };
     }
 
     throw new Error("Invalid credentials");

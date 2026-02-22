@@ -5,9 +5,10 @@ export const authHandlers = [
         await delay(50);
         const body = (await request.json()) as { email?: string; password?: string };
 
-        if (body.email === "test@example.com" && body.password === "password") {
+        if (body.email === "test@example.com" && body.password === "password123") {
             return HttpResponse.json({
-                token: "mocked.jwt.token",
+                access_token: "mocked.jwt.token",
+                refresh_token: "mocked.refresh.token",
             });
         }
 
