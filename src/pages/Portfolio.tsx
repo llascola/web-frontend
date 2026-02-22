@@ -1,13 +1,11 @@
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import PortfolioSection from "@/components/PortfolioSection";
-import BlogSection from "@/components/BlogSection";
+import { Hero, About, PortfolioSection } from "@/features/portfolio";
+import { BlogSection } from "@/features/blog";
 import Footer from "@/components/Footer";
 
 const Portfolio = () => {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-background">
             <Navbar />
             <Hero />
             <About />
