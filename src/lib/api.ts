@@ -15,4 +15,4 @@ const adapter = isLocalDev
     : await import("./api.prod");
 
 export const { loginWithEmailAndPassword, uploadAdminImage } = adapter;
-export type { LoginCredentials, AuthResponse } from "./api.prod";
+export type { AuthRequest, LoginResponse, UploadImageResponse } from "./api.prod";

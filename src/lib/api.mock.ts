@@ -1,14 +1,6 @@
+import type { AuthRequest, LoginResponse, UploadImageResponse } from "./api.prod";
+
 // --- Auth ---
-
-export interface LoginCredentials {
-    email: string;
-    password: string;
-}
-
-export interface AuthResponse {
-    access_token: string;
-    refresh_token: string;
-}
 
 const DEV_EMAIL = "admin@dev.local";
 const DEV_PASSWORD = "admin";
@@ -27,7 +19,7 @@ const createDevToken = (): string => {
     return `${header}.${payload}.${signature}`;
 };
 
-export const loginWithEmailAndPassword = async (credentials: LoginCredentials): Promise<AuthResponse> => {
+export const loginWithEmailAndPassword = async (credentials: AuthRequest): Promise<LoginResponse> => {
     await new Promise((resolve) => setTimeout(resolve, 300));
 
     if (credentials.email === DEV_EMAIL && credentials.password === DEV_PASSWORD) {
@@ -39,7 +31,7 @@ export const loginWithEmailAndPassword = async (credentials: LoginCredentials): 
 
 // --- Upload ---
 
-export const uploadAdminImage = async (file: File): Promise<{ url: string }> => {
+export const uploadAdminImage = async (file: File): Promise<UploadImageResponse> => {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return { url: URL.createObjectURL(file) };
 };

@@ -1,26 +1,21 @@
 import { api } from "@/lib/api-client";
+import type { components } from "@/contracts/openapi-types";
 
 // --- Auth ---
 
-export interface LoginCredentials {
-    email: string;
-    password: string;
-}
+export type AuthRequest = components["schemas"]["AuthRequest"];
+export type LoginResponse = components["schemas"]["LoginResponse"];
+export type UploadImageResponse = components["schemas"]["UploadImageResponse"];
 
-export interface AuthResponse {
-    access_token: string;
-    refresh_token: string;
-}
-
-export const loginWithEmailAndPassword = (credentials: LoginCredentials): Promise<AuthResponse> => {
-    return api.post<AuthResponse>("/auth/login", credentials);
+export const loginWithEmailAndPassword = (credentials: AuthRequest): Promise<LoginResponse> => {
+    return api.post<LoginResponse>("/auth/login", credentials);
 };
 
 // --- Upload ---
 
-export const uploadAdminImage = async (file: File): Promise<{ url: string }> => {
+export const uploadAdminImage = async (file: File): Promise<UploadImageResponse> => {
     const formData = new FormData();
     formData.append("file", file);
 
-    return api.post<{ url: string }>("/api/admin/upload-image", formData);
+    return api.post<UploadImageResponse>("/api/admin/upload-image", formData);
 };
