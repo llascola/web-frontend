@@ -89,7 +89,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/profile": {
+    "/profile": {
         parameters: {
             query?: never;
             header?: never;
@@ -106,7 +106,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/users/{id}": {
+    "/admin/users/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -123,7 +123,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/upload-image": {
+    "/admin/upload-image": {
         parameters: {
             query?: never;
             header?: never;
@@ -140,7 +140,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/blog/posts": {
+    "/blog/posts": {
         parameters: {
             query?: never;
             header?: never;
@@ -157,7 +157,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/blog/posts/{slug}": {
+    "/blog/posts/{slug}": {
         parameters: {
             query?: never;
             header?: never;
@@ -174,7 +174,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/blog/tags": {
+    "/blog/tags": {
         parameters: {
             query?: never;
             header?: never;
@@ -191,7 +191,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/blog/posts": {
+    "/admin/blog/posts": {
         parameters: {
             query?: never;
             header?: never;
@@ -209,7 +209,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/admin/blog/posts/{id}": {
+    "/admin/blog/posts/{id}": {
         parameters: {
             query?: never;
             header?: never;

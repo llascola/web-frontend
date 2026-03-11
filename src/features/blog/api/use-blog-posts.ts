@@ -19,7 +19,7 @@ export const usePublishedPosts = (params?: {
             page_size: queryParams.page_size,
         }),
         queryFn: async () => {
-            const { data } = await api.get<BlogPostList>("/api/blog/posts", { params: queryParams });
+            const { data } = await api.get<BlogPostList>("blog/posts", { params: queryParams });
             return data;
         },
         enabled,
@@ -41,7 +41,7 @@ export const useBlogPostsList = (params?: {
             if (isAdmin) {
                 return getAdminBlogPosts({ tag, page, page_size });
             }
-            const { data } = await api.get<BlogPostList>("/api/blog/posts", {
+            const { data } = await api.get<BlogPostList>("blog/posts", {
                 params: { tag, page, page_size },
             });
             return data;
@@ -54,7 +54,7 @@ export const usePublishedPost = (slug: string) => {
     return useQuery({
         queryKey: blogKeys.postDetail(slug),
         queryFn: async () => {
-            const { data } = await api.get<BlogPost>(`/api/blog/posts/${slug}`);
+            const { data } = await api.get<BlogPost>(`blog/posts/${slug}`);
             return data;
         },
         enabled: !!slug,
@@ -65,7 +65,7 @@ export const useBlogTags = () => {
     return useQuery({
         queryKey: blogKeys.tags(),
         queryFn: async () => {
-            const { data } = await api.get<TagList>("/api/blog/tags");
+            const { data } = await api.get<TagList>("blog/tags");
             return data;
         },
     });

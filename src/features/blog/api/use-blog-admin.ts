@@ -8,22 +8,22 @@ import { blogKeys } from "./blog-keys";
 // --- Mutation functions ---
 
 const createBlogPost = async (body: CreateBlogPostRequest): Promise<BlogPost> => {
-    const { data } = await api.post<BlogPost>("/api/admin/blog/posts", body);
+    const { data } = await api.post<BlogPost>("admin/blog/posts", body);
     return data;
 };
 
 const updateBlogPost = async ({ id, data: body }: { id: string; data: UpdateBlogPostRequest }): Promise<BlogPost> => {
-    const { data } = await api.put<BlogPost>(`/api/admin/blog/posts/${id}`, body);
+    const { data } = await api.put<BlogPost>(`admin/blog/posts/${id}`, body);
     return data;
 };
 
 const deleteBlogPost = async (id: string): Promise<MessageResponse> => {
-    const { data } = await api.delete<MessageResponse>(`/api/admin/blog/posts/${id}`);
+    const { data } = await api.delete<MessageResponse>(`admin/blog/posts/${id}`);
     return data;
 };
 
 export const getAdminBlogPosts = async (params?: { tag?: string; page?: number; page_size?: number }): Promise<BlogPostList> => {
-    const { data } = await api.get<BlogPostList>("/api/admin/blog/posts", { params });
+    const { data } = await api.get<BlogPostList>("admin/blog/posts", { params });
     return data;
 };
 

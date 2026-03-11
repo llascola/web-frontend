@@ -7,7 +7,7 @@ const uploadAdminImage = async (file: File): Promise<UploadImageResponse> => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const { data } = await api.post<UploadImageResponse>("/api/admin/upload-image", formData);
+    const { data } = await api.post<UploadImageResponse>("admin/upload-image", formData);
     return data;
 };
 

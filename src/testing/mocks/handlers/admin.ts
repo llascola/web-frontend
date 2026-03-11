@@ -1,7 +1,7 @@
 import { http, HttpResponse, delay } from "msw";
 
 export const adminHandlers = [
-    http.post("*/api/admin/upload-image", async ({ request }) => {
+    http.post("*/admin/upload-image", async ({ request }) => {
         await delay(50);
         // Mock checking authorization header realistically
         const authHeader = request.headers.get("Authorization");

@@ -19,7 +19,7 @@ import axios, { AxiosError } from "axios";
 // ─── Axios Instance ─────────────────────────────────────────────────────────
 
 export const api = axios.create({
-    baseURL: "/",
+    baseURL: import.meta.env.VITE_API_BASE_URL || "/",
     headers: { Accept: "application/json" },
 });
 
