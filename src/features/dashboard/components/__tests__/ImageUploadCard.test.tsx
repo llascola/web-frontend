@@ -1,11 +1,13 @@
 import { render, screen } from "@/testing/test-utils";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { ImageUploadCard } from "../ImageUploadCard";
 import * as AuthContextModule from "@/features/auth/context/AuthContext";
+import { setAuthToken, clearAuthToken } from "@/lib/api";
 
 describe("ImageUploadCard (TDD)", () => {
     const mockAuth = () => {
+        setAuthToken("valid-mock-token");
         vi.spyOn(AuthContextModule, "useAuth").mockReturnValue({
             user: { id: "admin-1", role: "ADMIN" },
             token: "valid-mock-token",
@@ -14,6 +16,10 @@ describe("ImageUploadCard (TDD)", () => {
             logout: vi.fn(),
         });
     };
+
+    afterEach(() => {
+        clearAuthToken();
+    });
 
     it("🔴 renders the upload title and file input", () => {
         mockAuth();
@@ -54,9 +60,9 @@ describe("ImageUploadCard (TDD)", () => {
         // React Query loading state
         expect(await screen.findByRole("button", { name: /uploading.../i })).toBeInTheDocument();
 
-        // Mock adapter returns a local blob URL via URL.createObjectURL
+        // MSW handler returns a mock URL
         expect(await screen.findByText("Upload Successful!")).toBeInTheDocument();
         const link = screen.getByRole("link");
-        expect(link).toHaveAttribute("href", expect.stringContaining("blob:"));
+        expect(link).toHaveAttribute("href", expect.stringContaining("mock-image-upload"));
     });
 });

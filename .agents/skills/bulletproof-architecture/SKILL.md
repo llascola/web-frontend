@@ -52,32 +52,68 @@ These components represent full screens/routes (e.g., `Dashboard.tsx`, `Login.ts
 *   Always use semantic CSS variables for colors (e.g., `bg-background`, `text-foreground`, `bg-card`) mapped in `src/index.css` to ensure full Dark Mode compatibility.
 *   Do not hardcode hex codes or standard colors (`bg-white`, `text-slate-900`) inside components.
 
-## 4. Mock / Production Adapter Pattern
-When the application makes network calls, you MUST separate mock and production code using a **centralized adapter pattern**. Never mix mock logic into production files.
+## 4. Axios API Layer
+The API layer uses a **single [Axios](https://axios-http.com/) instance** with interceptors for authentication, error mapping, and 401 session handling. Types come from the auto-generated `openapi-types.ts`.
 
 ### Structure
-All API functions live in three consolidated files inside `src/lib/`:
 ```sh
-src/lib/
-├── api-client.ts      # Shared fetch wrapper (auth headers, errors, 401 redirect)
-├── api.ts             # Router: switches between .prod and .mock
-├── api.prod.ts        # ALL production fetchers (real fetch via api-client)
-├── api.mock.ts        # ALL local dev mocks (fake data, simulated latency)
-└── react-query.ts     # MutationConfig/QueryConfig type utilities
+src/lib/api/
+├── client.ts      # Axios instance + interceptors + token management
+├── types.ts       # Re-exported schema types from openapi-types.ts
+└── index.ts       # Barrel export (public API for the module)
 ```
 
-### Rules
-*   **Router file** (`api.ts`): The only file imported by consumers. Checks `import.meta.env.VITE_API_URL` and dynamically imports the correct adapter:
-    ```ts
-    const isLocalDev = !import.meta.env.VITE_API_URL;
-    const adapter = isLocalDev
-        ? await import("./api.mock")
-        : await import("./api.prod");
-    export const { loginWithEmailAndPassword, uploadAdminImage } = adapter;
-    ```
-*   **Prod file** (`api.prod.ts`): Contains ALL production fetchers. Each function uses the shared `api-client`. No mock logic.
-*   **Mock file** (`api.mock.ts`): Contains ALL local dev stubs. Must simulate realistic latency. Must never be imported outside the router.
-*   **Same contract**: Both files MUST export functions with identical names, signatures, and return types.
-*   **Adding a new endpoint**: Add the fetcher to BOTH `api.prod.ts` and `api.mock.ts`, then export it from the router in `api.ts`.
-*   **Feature hooks**: Each feature creates its own React Query hook (e.g., `use-login.ts`, `use-upload-image.ts`) that imports from `@/lib/api`.
+### Token Management
+The Axios interceptor reads auth tokens from a **module-scoped variable**, not directly from `localStorage`. This avoids scope-isolation issues in tests.
 
+```ts
+import { setAuthToken, clearAuthToken } from "@/lib/api";
+setAuthToken(token);   // Call on login
+clearAuthToken();      // Call on logout
+```
+
+The `AuthContext` calls these automatically. Tests mock them directly.
+
+### Interceptors
+*   **Request**: injects `Authorization: Bearer <token>`, removes `Content-Type` for `FormData`.
+*   **Response**: 401 on non-auth endpoints → clears token & redirects to `/login`. All errors are mapped to user-friendly messages via `friendlyMessage()`.
+
+### Rules
+*   **Single instance**: `client.ts` exports one `api` Axios instance. All API calls go through it.
+*   **Typed generics**: Feature hooks use `api.get<ResponseType>(url)`, `api.post<ResponseType>(url, body)`, etc.
+*   **Schema types**: `types.ts` re-exports `components["schemas"]` types. Import from `@/lib/api`.
+*   **Mocking via MSW**: Tests use MSW `setupServer` to intercept Axios requests at the network level.
+*   **Adding a new endpoint**: Add the operation to the OpenAPI spec, regenerate types, then call `api.get/post/put/delete<T>` in a feature hook.
+
+### Example — Query Hook
+```ts
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api";
+import type { BlogPostList } from "@/lib/api";
+
+export const usePublishedPosts = (params?: { tag?: string }) => {
+    return useQuery({
+        queryKey: ["blog", "posts", params],
+        queryFn: async () => {
+            const { data } = await api.get<BlogPostList>("/api/blog/posts", { params });
+            return data;
+        },
+    });
+};
+```
+
+### Example — Mutation Hook
+```ts
+import { useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api";
+import type { BlogPost, CreateBlogPostRequest } from "@/lib/api";
+
+const createBlogPost = async (body: CreateBlogPostRequest): Promise<BlogPost> => {
+    const { data } = await api.post<BlogPost>("/api/admin/blog/posts", body);
+    return data;
+};
+
+export const useCreatePost = () => {
+    return useMutation({ mutationFn: createBlogPost });
+};
+```

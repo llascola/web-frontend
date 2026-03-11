@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 
-import { loginWithEmailAndPassword } from "@/lib/api";
+import { api } from "@/lib/api";
+import type { AuthRequest, LoginResponse } from "@/lib/api";
 import type { MutationConfig } from "@/lib/react-query";
 
 export const loginSchema = z.object({
@@ -10,6 +11,11 @@ export const loginSchema = z.object({
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
+
+const loginWithEmailAndPassword = async (credentials: AuthRequest): Promise<LoginResponse> => {
+    const { data } = await api.post<LoginResponse>("/auth/login", credentials);
+    return data;
+};
 
 type UseLoginOptions = {
     mutationConfig?: MutationConfig<typeof loginWithEmailAndPassword>;

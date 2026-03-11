@@ -33,8 +33,8 @@ describe("Login Page Integration", () => {
 
         await user.click(screen.getByRole("button", { name: /login/i }));
 
-        // The universal MSW auth handler returns a 401 for invalid credentials
-        expect(await screen.findByText(/invalid credentials/i)).toBeInTheDocument();
+        // The Axios response interceptor maps 401 to a user-friendly error
+        expect(await screen.findByText(/invalid email or password/i)).toBeInTheDocument();
     });
 
     it("handles successful secure login lifecycles gracefully", async () => {

@@ -1,12 +1,13 @@
 import { render, screen } from "@/testing/test-utils";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import Dashboard from "../Dashboard";
 import * as AuthContextModule from "@/features/auth/context/AuthContext";
+import { setAuthToken, clearAuthToken } from "@/lib/api";
 
 describe("Dashboard Page Integration", () => {
-    // Inject a mocked session to bypass the frontend token requirement boundary
     const mockAuth = () => {
+        setAuthToken("valid-mock-token");
         vi.spyOn(AuthContextModule, "useAuth").mockReturnValue({
             user: { id: "admin-1", role: "ADMIN" },
             token: "valid-mock-token",
@@ -15,6 +16,10 @@ describe("Dashboard Page Integration", () => {
             logout: vi.fn(),
         });
     };
+
+    afterEach(() => {
+        clearAuthToken();
+    });
 
     it("renders strictly isolated dashboard widgets", () => {
         mockAuth();
@@ -59,11 +64,11 @@ describe("Dashboard Page Integration", () => {
         // React Query's `useMutation` instantly reflects network polling
         expect(await screen.findByRole("button", { name: /uploading.../i })).toBeInTheDocument();
 
-        // The mock adapter returns a local blob URL via URL.createObjectURL
+        // MSW handler returns a mock URL
         expect(await screen.findByText("Upload Successful!")).toBeInTheDocument();
 
         const links = screen.getAllByRole("link");
-        const blobLink = links.find((link) => link.getAttribute("href")?.startsWith("blob:"));
-        expect(blobLink).toBeInTheDocument();
+        const uploadLink = links.find((link) => link.getAttribute("href")?.includes("mock-image-upload"));
+        expect(uploadLink).toBeInTheDocument();
     });
 });

@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
-const navLinks = [
+type NavLink = { name: string; href: string } | { name: string; to: string };
+
+const navLinks: NavLink[] = [
     { name: "About", href: "#about" },
     { name: "Portfolio", href: "#portfolio" },
-    { name: "Blog", href: "#blog" },
+    { name: "Blog", to: "/blog" },
 ];
 
 const Navbar = () => {
@@ -19,21 +21,31 @@ const Navbar = () => {
                     {/* Logo */}
                     <div className="flex-shrink-0 flex items-center">
                         <a href="#home" className="text-xl font-bold text-foreground">
-                            Luciano<span className="text-primary">.dev</span>
+                            lucianoscola<span className="text-primary">.com</span>
                         </a>
                     </div>
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-8">
-                        {navLinks.map((link) => (
-                            <a
-                                key={link.name}
-                                href={link.href}
-                                className="text-muted-foreground hover:text-primary transition-colors font-medium"
-                            >
-                                {link.name}
-                            </a>
-                        ))}
+                        {navLinks.map((link) =>
+                            "to" in link ? (
+                                <Link
+                                    key={link.name}
+                                    to={link.to}
+                                    className="text-muted-foreground hover:text-primary transition-colors font-medium"
+                                >
+                                    {link.name}
+                                </Link>
+                            ) : (
+                                <a
+                                    key={link.name}
+                                    href={link.href}
+                                    className="text-muted-foreground hover:text-primary transition-colors font-medium"
+                                >
+                                    {link.name}
+                                </a>
+                            )
+                        )}
                         <ThemeToggle />
                         <Button asChild variant="default" size="sm">
                             <Link to="/dashboard">Dashboard</Link>
@@ -57,16 +69,27 @@ const Navbar = () => {
             {isOpen && (
                 <div className="md:hidden bg-background border-b border-border">
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        {navLinks.map((link) => (
-                            <a
-                                key={link.name}
-                                href={link.href}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-primary hover:bg-muted"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                {link.name}
-                            </a>
-                        ))}
+                        {navLinks.map((link) =>
+                            "to" in link ? (
+                                <Link
+                                    key={link.name}
+                                    to={link.to}
+                                    className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-primary hover:bg-muted"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    {link.name}
+                                </Link>
+                            ) : (
+                                <a
+                                    key={link.name}
+                                    href={link.href}
+                                    className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-primary hover:bg-muted"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    {link.name}
+                                </a>
+                            )
+                        )}
                         <Link
                             to="/dashboard"
                             className="block px-3 py-2"

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { jwtDecode } from "jwt-decode";
+import { setAuthToken, clearAuthToken } from "@/lib/api";
 
 export type Role = "ADMIN" | "USER";
 
@@ -48,15 +49,21 @@ const getInitialToken = (): string | null => {
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Lazy initializers based on performance guidelines, strictly validating JWT before mount
-    const [token, setToken] = useState<string | null>(getInitialToken);
+    const [token, setToken] = useState<string | null>(() => {
+        const initial = getInitialToken();
+        if (initial) setAuthToken(initial); // Sync Axios interceptor
+        return initial;
+    });
 
     const logout = useCallback(() => {
         setToken(null);
+        clearAuthToken();
         localStorage.removeItem("token");
     }, []);
 
     const login = useCallback((newToken: string) => {
         setToken(newToken);
+        setAuthToken(newToken);
         localStorage.setItem("token", newToken);
     }, []);
 
@@ -97,10 +104,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return () => clearTimeout(timeoutId);
     }, [parsedToken, logout]);
 
+    const contextValue = useMemo(() => ({
+        token,
+        user,
+        login,
+        logout,
+        isAuthenticated: !!token && !!user
+    }), [token, user, login, logout]);
+
     return (
-        <AuthContext value={{ token, user, login, logout, isAuthenticated: !!token && !!user }}>
+        <AuthContext.Provider value={contextValue}>
             {children}
-        </AuthContext>
+        </AuthContext.Provider>
     );
 };
 

@@ -16,6 +16,8 @@ const queryClient = new QueryClient({
 const Portfolio = lazy(() => import("@/pages/Portfolio"));
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Login = lazy(() => import("@/pages/Login"));
+const Blog = lazy(() => import("@/pages/Blog"));
+const BlogPost = lazy(() => import("@/pages/BlogPost"));
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
             <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
               <Routes>
                 <Route path="/" element={<Portfolio />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/login" element={<Login />} />
                 <Route
                   path="/dashboard"
