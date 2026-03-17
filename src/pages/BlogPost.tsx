@@ -1,6 +1,4 @@
 import { useParams, Link } from "react-router-dom";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Container } from "@/components/ui/container";
 import { BlogPostDetail } from "@/features/blog";
 import { usePublishedPost } from "@/features/blog/api/use-blog-posts";
@@ -11,7 +9,6 @@ const BlogPostPage = () => {
 
     return (
         <div className="min-h-screen bg-background">
-            <Navbar />
             {isLoading ? (
                 <section className="py-32">
                     <Container className="max-w-3xl">
@@ -37,7 +34,6 @@ const BlogPostPage = () => {
             ) : (
                 <BlogPostDetail post={post} />
             )}
-            <Footer />
         </div>
     );
 };

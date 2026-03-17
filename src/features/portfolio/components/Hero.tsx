@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button/button";
 import { ArrowRight } from "lucide-react";
 import { TypographyH1, TypographyLead } from "@/components/ui/typography";
 import { Container } from "@/components/ui/container";

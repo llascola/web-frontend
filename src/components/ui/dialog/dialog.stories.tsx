@@ -1,0 +1,65 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import * as React from 'react';
+
+import { Button } from '@/components/ui/button/button';
+import { useDisclosure } from '@/hooks/use-disclouser';
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './dialog';
+
+const meta = {
+  title: 'Components/Dialog',
+  component: Dialog,
+  tags: ['autodocs'],
+} satisfies Meta<typeof Dialog>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+const DemoDialog = () => {
+  const { close, open, isOpen } = useDisclosure();
+  const cancelButtonRef = React.useRef(null);
+
+  return (
+    <Dialog
+      open={isOpen}
+      onOpenChange={(isOpen) => {
+        if (!isOpen) {
+          close();
+        } else {
+          open();
+        }
+      }}
+    >
+      <DialogTrigger asChild>
+        <Button variant="outline">Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>Lorem ipsum</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">Lorem ipsum</div>
+
+        <DialogFooter>
+          <Button type="submit">Save changes</Button>
+          <Button ref={cancelButtonRef} variant="outline" onClick={close}>
+            Cancel
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const Demo: Story = {
+  render: () => <DemoDialog />,
+};

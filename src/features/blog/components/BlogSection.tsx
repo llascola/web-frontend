@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Container } from "@/components/ui/container";
 import { SectionHeader } from "@/components/ui/section-header";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button/button";
 import { ArrowRight } from "lucide-react";
 import { usePublishedPosts } from "../api/use-blog-posts";
 import { BlogCard } from "./blog-card";

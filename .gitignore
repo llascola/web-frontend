@@ -34,3 +34,9 @@ dist-ssr
 
 # Vite/Testing specific
 coverage
+vitest.*
+
+*storybook.log
+storybook-static
+
+

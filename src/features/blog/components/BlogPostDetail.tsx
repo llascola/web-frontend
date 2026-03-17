@@ -4,7 +4,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { ArrowLeft, Trash2 } from "lucide-react";
 import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button/button";
 import { Authorization } from "@/features/auth";
 import type { BlogPost } from "@/lib/api";
 import { InlineEditButton } from "./InlineEditButton";

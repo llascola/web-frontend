@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button/button";
 import { Pencil, Plus } from "lucide-react";
 import { Authorization } from "@/features/auth";
 

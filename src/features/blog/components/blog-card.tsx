@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button/button";
 import { ArrowRight } from "lucide-react";
 import { TypographyH3, TypographyMuted } from "@/components/ui/typography";
 import type { BlogPost } from "@/lib/api";

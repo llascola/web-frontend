@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Container } from "@/components/ui/container";
 import { SectionHeader } from "@/components/ui/section-header";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useAuth } from "@/features/auth/context/AuthContext";
 import { useBlogPostsList, useBlogTags } from "../api/use-blog-posts";
