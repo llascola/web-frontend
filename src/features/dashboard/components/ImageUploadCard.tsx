@@ -3,7 +3,7 @@ import { useUploadImage } from "../api/use-upload-image";
 import { Button } from "@/components/ui/button/button";
 import { Input } from "@/components/ui/input/input";
 import { Label } from "@/components/ui/label/label";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card/card";
 
 export const ImageUploadCard = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);

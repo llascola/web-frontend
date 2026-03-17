@@ -2,14 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { ArrowLeft, Trash2 } from "lucide-react";
-import { Container } from "@/components/ui/container";
+import { ArrowLeft, Section, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button/button";
 import { Authorization } from "@/features/auth";
 import type { BlogPost } from "@/lib/api";
 import { InlineEditButton } from "./InlineEditButton";
 import { BlogPostEditor } from "./BlogPostEditor";
 import { useDeletePost } from "../api/use-blog-admin";
+import { SectionContainer } from "@/components/ui/section/section";
 
 interface BlogPostDetailProps {
     post: BlogPost;
@@ -36,8 +36,8 @@ export const BlogPostDetail = ({ post }: BlogPostDetailProps) => {
     };
 
     return (
-        <section className="py-32 bg-background min-h-screen">
-            <Container className="max-w-3xl">
+        <Section className="py-32 bg-background min-h-screen">
+            <SectionContainer className="max-w-3xl">
                 <div className="mb-8 flex items-center justify-between">
                     <Button asChild variant="ghost" className="gap-2">
                         <Link to="/blog">
@@ -87,11 +87,11 @@ export const BlogPostDetail = ({ post }: BlogPostDetailProps) => {
                         <Markdown remarkPlugins={[remarkGfm]}>{post.content}</Markdown>
                     </div>
                 </article>
-            </Container>
+            </SectionContainer>
 
             {isEditing && (
                 <BlogPostEditor post={post} onClose={() => setIsEditing(false)} />
             )}
-        </section>
+        </Section>
     );
 };

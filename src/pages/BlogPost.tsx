@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { Container } from "@/components/ui/container";
+import { Container } from "@/components/ui/container/container";
 import { BlogPostDetail } from "@/features/blog";
 import { usePublishedPost } from "@/features/blog/api/use-blog-posts";
 

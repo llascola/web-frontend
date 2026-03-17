@@ -1,9 +1,8 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card/card";
 import { Button } from "@/components/ui/button/button";
 import { ExternalLink, Github } from "lucide-react";
-import { Container } from "@/components/ui/container";
-import { SectionHeader } from "@/components/ui/section-header";
-import { TypographyH3, TypographyMuted } from "@/components/ui/typography";
+import { TypographyH3, TypographyMuted } from "@/components/ui/typography/typography";
+import { Section, SectionContainer, SectionHeader } from "@/components/ui/section/section";
 
 const projects = [
     {
@@ -33,15 +32,13 @@ const projects = [
 ];
 
 const PortfolioSection = () => {
-
     return (
-        <section id="portfolio" className="py-20 bg-background">
-            <Container>
-                <SectionHeader
-                    title="My Portfolio"
-                    description="Here are some of the projects I've worked on. Each one presented unique challenges and learning opportunities."
-                />
-
+        <Section id="portfolio" className="bg-background">
+            <SectionHeader
+                title="My Portfolio"
+                description="Here are some of the projects I've worked on. Each one presented unique challenges and learning opportunities."
+            />
+            <SectionContainer>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((project) => (
                         <Card key={project.title} className="overflow-hidden border border-border hover:border-primary/50 transition-all hover:shadow-xl flex flex-col bg-card">
@@ -77,8 +74,8 @@ const PortfolioSection = () => {
                         </Card>
                     ))}
                 </div>
-            </Container>
-        </section>
+            </SectionContainer>
+        </Section>
     );
 };
 

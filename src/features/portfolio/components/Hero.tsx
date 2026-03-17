@@ -1,22 +1,25 @@
 import { Button } from "@/components/ui/button/button";
 import { ArrowRight } from "lucide-react";
-import { TypographyH1, TypographyLead } from "@/components/ui/typography";
-import { Container } from "@/components/ui/container";
+import { TypographyH1, TypographyLead } from "@/components/ui/typography/typography";
+import { Section, SectionContainer } from "@/components/ui/section/section";
 
 const Hero = () => {
     return (
-        <section id="home" className="pt-32 pb-16 md:pt-48 md:pb-32 px-4">
-            <Container className="flex flex-col-reverse md:flex-row items-center gap-12">
-                {/* Text Content */}
-                <div className="flex-1 text-center md:text-left space-y-6">
-                    <TypographyH1 className="md:text-6xl text-foreground">
-                        Building Digital <br />
-                        <span className="text-primary">Experiences</span>
-                    </TypographyH1>
-                    <TypographyLead className="md:text-xl max-w-2xl mx-auto md:mx-0">
-                        Hi, I'm Luciano Scola. A Full Stack Go Developer & Systems Architect passionate about building scalable, high-performance web applications.
-                    </TypographyLead>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+        <Section id="home" className="mt-32">
+            <SectionContainer className="flex flex-col-reverse md:flex-row items-center gap-12">
+                <div className="flex-1 text-center md:text-left gap-17">
+                    <div className="flex flex-col gap-4">
+                        <TypographyH1 className="text-foreground">
+                            Building Digital <br />
+                            <span className="text-primary">Experiences</span>
+                        </TypographyH1>
+                        <div />
+                        <TypographyLead className="md:text-xl max-w-2xl mx-auto md:mx-0">
+                            Hi, I'm Luciano Scola. A Full Stack Go Developer & Systems Architect passionate about building scalable, high-performance web applications.
+                        </TypographyLead>
+                    </div>
+                    <div />
+                    <div className="justify-center md:justify-start">
                         <Button asChild size="lg" className="w-full sm:w-auto gap-2">
                             <a href="#portfolio">
                                 View My Work <ArrowRight size={18} />
@@ -39,8 +42,8 @@ const Hero = () => {
                         </div>
                     </div>
                 </div>
-            </Container>
-        </section>
+            </SectionContainer>
+        </Section>
     );
 };
 

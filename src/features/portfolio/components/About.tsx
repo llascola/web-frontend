@@ -1,8 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card/card";
 import { Code, Database, Server, Layout } from "lucide-react";
-import { Container } from "@/components/ui/container";
-import { SectionHeader } from "@/components/ui/section-header";
-import { TypographyH3, TypographyMuted } from "@/components/ui/typography";
+import { Section, SectionContainer, SectionHeader } from "@/components/ui/section/section";
+import { TypographyH3, TypographyMuted } from "@/components/ui/typography/typography";
 
 const skills = [
     {
@@ -28,28 +27,25 @@ const skills = [
 ];
 
 const About = () => {
-
     return (
-        <section id="about" className="py-20 bg-muted/50">
-            <Container>
-                <SectionHeader
-                    title="About Me"
-                    description="I'm a dedicated developer with a strong foundation in both frontend and backend technologies. I love solving complex problems and delivering high-quality software."
-                />
+        <Section id="about" className="bg-muted/50">
+            <SectionHeader
+                title="About Me"
+                description="I'm a dedicated developer with a strong foundation in both frontend and backend technologies. I love solving complex problems and delivering high-quality software."
+            />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {skills.map((skill) => (
-                        <Card key={skill.title} className="border-none shadow-md hover:shadow-lg transition-shadow bg-card">
-                            <CardContent className="pt-6 text-center space-y-4">
-                                <div className="flex justify-center">{skill.icon}</div>
-                                <TypographyH3 className="text-xl">{skill.title}</TypographyH3>
-                                <TypographyMuted>{skill.description}</TypographyMuted>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            </Container>
-        </section>
+            <SectionContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {skills.map((skill) => (
+                    <Card key={skill.title} className="border-none shadow-md hover:shadow-lg transition-shadow bg-card">
+                        <CardContent className="pt-6 text-center space-y-4">
+                            <div className="flex justify-center">{skill.icon}</div>
+                            <TypographyH3 className="text-xl">{skill.title}</TypographyH3>
+                            <TypographyMuted>{skill.description}</TypographyMuted>
+                        </CardContent>
+                    </Card>
+                ))}
+            </SectionContainer>
+        </Section>
     );
 };
 

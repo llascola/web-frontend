@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Container } from "@/components/ui/container";
-import { SectionHeader } from "@/components/ui/section-header";
 import { Button } from "@/components/ui/button/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useAuth } from "@/features/auth/context/AuthContext";
@@ -9,6 +7,7 @@ import { useBlogPostsList, useBlogTags } from "../api/use-blog-posts";
 import { BlogCard } from "./blog-card";
 import { InlineEditButton } from "./InlineEditButton";
 import { BlogPostEditor } from "./BlogPostEditor";
+import { Section, SectionContainer, SectionHeader } from "@/components/ui/section/section";
 
 const PAGE_SIZE = 6;
 
@@ -54,16 +53,15 @@ export const BlogPostList = () => {
     };
 
     return (
-        <section className="py-32 bg-background min-h-screen">
-            <Container>
-                <div className="flex items-center justify-between mb-4">
-                    <SectionHeader
-                        title="Blog"
-                        description="Thoughts on technology, software architecture, and development best practices."
-                    />
-                    <InlineEditButton onClick={() => setIsCreating(true)} variant="create" />
-                </div>
+        <Section className="py-32 bg-background min-h-screen">
+            <SectionHeader
+                title="Blog"
+                description="Thoughts on technology, software architecture, and development best practices."
+            >
+                <InlineEditButton onClick={() => setIsCreating(true)} variant="create" />
+            </SectionHeader>
 
+            <SectionContainer>
                 {tagsData && tagsData.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-10 justify-center">
                         <Button
@@ -132,11 +130,11 @@ export const BlogPostList = () => {
                         </Button>
                     </div>
                 )}
-            </Container>
+            </SectionContainer>
 
             {isCreating && (
                 <BlogPostEditor onClose={() => setIsCreating(false)} />
             )}
-        </section>
+        </Section>
     );
 };

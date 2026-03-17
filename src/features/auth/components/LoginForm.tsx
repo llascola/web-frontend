@@ -7,7 +7,7 @@ import { useLogin, loginSchema } from "../api/use-login";
 import type { LoginFormValues } from "../api/use-login";
 import { Button } from "@/components/ui/button/button";
 import { Input } from "@/components/ui/input/input";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card/card";
 import { Label } from "@/components/ui/label/label";
 
 export const LoginForm = () => {

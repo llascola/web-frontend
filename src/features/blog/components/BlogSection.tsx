@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { Container } from "@/components/ui/container";
-import { SectionHeader } from "@/components/ui/section-header";
+import { Section, SectionContainer, SectionHeader } from "@/components/ui/section/section";
 import { Button } from "@/components/ui/button/button";
 import { ArrowRight } from "lucide-react";
 import { usePublishedPosts } from "../api/use-blog-posts";
@@ -10,13 +9,13 @@ const BlogSection = () => {
     const { data, isLoading } = usePublishedPosts({ page: 1, page_size: 3 });
 
     return (
-        <section id="blog" className="py-20 bg-muted/50">
-            <Container>
-                <SectionHeader
-                    title="Latest Articles"
-                    description="Thoughts on technology, software architecture, and development best practices."
-                />
+        <Section id="blog" className="bg-muted/50">
+            <SectionHeader
+                title="Latest Articles"
+                description="Thoughts on technology, software architecture, and development best practices."
+            />
 
+            <SectionContainer>
                 {isLoading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         {[1, 2, 3].map((i) => (
@@ -41,8 +40,8 @@ const BlogSection = () => {
                         </Button>
                     </div>
                 )}
-            </Container>
-        </section>
+            </SectionContainer>
+        </Section>
     );
 };
 

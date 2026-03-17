@@ -1,4 +1,4 @@
-import { TypographySmall } from "@/components/ui/typography";
+import { TypographySmall } from "@/components/ui/typography/typography";
 
 const Footer = () => {
     return (
